@@ -1,0 +1,13 @@
+<div *ngIf="loading()">Loading labels...</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<div *ngIf="!loading() && labels().length">
+  <div *ngFor="let label of labels()">
+    <label>
+      <input type="checkbox" [checked]="selectedLabelIds().includes(label.id)" (change)="toggleLabel(label.id)" />
+      <span [style.background]="label.color" style="display:inline-block;width:16px;height:16px;border-radius:4px;margin-right:4px;"></span>
+      {{ label.name }}
+    </label>
+  </div>
+</div>
+<div *ngIf="!loading() && !labels().length">No labels found.</div>

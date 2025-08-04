@@ -1,0 +1,22 @@
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<div *ngIf="task()">
+  <h2>Task: {{ task()?.title }}</h2>
+  <div><strong>Description:</strong> {{ task()?.description }}</div>
+  <div><strong>Due Date:</strong> {{ task()?.dueDate | date:'short' }}</div>
+  <div><strong>Status:</strong> {{ task()?.status }}</div>
+  <div><strong>Assigned To:</strong> {{ task()?.assignedToId }}</div>
+  <div><strong>Project:</strong> {{ task()?.projectId }}</div>
+
+  <h3>Comments</h3>
+  <div><!-- Comments component goes here --></div>
+
+  <h3>Attachments</h3>
+  <div><!-- Attachments component goes here --></div>
+
+  <h3>Labels</h3>
+  <div><!-- Labels component goes here --></div>
+
+  <h3>Schedule</h3>
+  <div><!-- Schedule component goes here --></div>
+</div>

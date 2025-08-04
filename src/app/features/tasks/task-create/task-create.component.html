@@ -1,0 +1,31 @@
+<form [formGroup]="taskForm" (ngSubmit)="createTask()">
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">Task created!</div>
+
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input id="title" formControlName="title" />
+  </div>
+  
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+  
+  <div class="form-group">
+    <label for="dueDate">Due Date:</label>
+    <app-date-picker id="dueDate" [value]="taskForm.get('dueDate')?.value" (valueChange)="taskForm.get('dueDate')?.setValue($event)"></app-date-picker>
+  </div>
+  
+  <div class="form-group">
+    <label for="projectId">Project ID:</label>
+    <input id="projectId" formControlName="projectId" />
+  </div>
+  
+  <div class="form-group">
+    <label for="assignedTo">Assigned To:</label>
+    <app-user-selector id="assignedTo" (selectionChange)="taskForm.get('assignedToId')?.setValue($event)"></app-user-selector>
+  </div>
+  
+  <button type="submit" [disabled]="taskForm.invalid">Create Task</button>
+</form>

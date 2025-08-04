@@ -1,0 +1,13 @@
+<div *ngIf="loading()">Loading user profile...</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<div *ngIf="!loading() && user()">
+  <div class="avatar">
+    <img *ngIf="user()?.avatarUrl" [src]="user()?.avatarUrl" alt="Avatar" width="80" height="80" />
+    <span *ngIf="!user()?.avatarUrl">No Avatar</span>
+  </div>
+  <div><strong>Full Name:</strong> {{ user()?.fullName }}</div>
+  <div><strong>Email:</strong> {{ user()?.email }}</div>
+  <div><strong>Job Title:</strong> {{ user()?.jobTitle }}</div>
+  <div><strong>Active:</strong> <span [class.active]="user()?.isActive" [class.inactive]="!user()?.isActive">{{ user()?.isActive ? 'Yes' : 'No' }}</span></div>
+</div>

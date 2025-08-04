@@ -1,0 +1,33 @@
+<div>
+  <app-search-bar [placeholder]="'Search projects...'" (search)="search.setValue($event)"></app-search-bar>
+</div>
+
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<table *ngIf="filteredProjects().length">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Created At</th>
+      <th>Owner</th>
+      <!-- <th>Actions</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let project of filteredProjects()">
+      <td>{{ project.name }}</td>
+      <td>{{ project.description }}</td>
+      <td>{{ project.projectType }}</td>
+      <td>{{ project.createdAt | date:'short' }}</td>
+      <td>
+        <ng-container *ngIf="userMap[project.ownerId] as user">
+          <app-user-avatar [avatarUrl]="user.avatarUrl" [fullName]="user.fullName"></app-user-avatar>
+          {{ user.fullName }}
+        </ng-container>
+        <ng-container *ngIf="!userMap[project.ownerId]">{{ project.ownerId }}</ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>

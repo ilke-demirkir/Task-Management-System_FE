@@ -1,0 +1,10 @@
+<div *ngIf="loading()">Loading users...</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<select [value]="selectedUserId" (change)="onSelectChange($event)" *ngIf="!loading() && users().length">
+  <option value="" disabled selected>Select a user</option>
+  <option *ngFor="let user of users()" [value]="user.id">
+    {{ user.fullName }} ({{ user.email }})
+  </option>
+</select>
+<div *ngIf="!loading() && !users().length">No users found.</div>

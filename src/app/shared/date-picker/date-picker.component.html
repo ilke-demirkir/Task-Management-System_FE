@@ -1,0 +1,10 @@
+<label>
+  {{ label }}:
+  <input
+    [type]="type"
+    [value]="value || ''"
+    (change)="onChange($event)"
+    [min]="min"
+    [max]="max"
+  />
+</label>

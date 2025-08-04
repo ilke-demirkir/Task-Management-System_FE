@@ -1,0 +1,35 @@
+<div>
+  <app-search-bar [placeholder]="'Search tasks...'" (search)="search.setValue($event)"></app-search-bar>
+</div>
+
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<table *ngIf="filteredTasks().length">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Due Date</th>
+      <th>Status</th>
+      <th>Assigned To</th>
+      <th>Project</th>
+      <!-- <th>Actions</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of filteredTasks()">
+      <td>{{ task.title }}</td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.dueDate | date:'short' }}</td>
+      <td><app-status-badge [status]="task.status"></app-status-badge></td>
+      <td>
+        <ng-container *ngIf="userMap[task.assignedToId] as user">
+          <app-user-avatar [avatarUrl]="user.avatarUrl" [fullName]="user.fullName"></app-user-avatar>
+          {{ user.fullName }}
+        </ng-container>
+        <ng-container *ngIf="!userMap[task.assignedToId]">{{ task.assignedToId }}</ng-container>
+      </td>
+      <td>{{ task.projectId }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,15 @@
+<form [formGroup]="scheduleForm" (ngSubmit)="createSchedule()">
+  <div *ngIf="loading()">Creating schedule...</div>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">Schedule created!</div>
+
+  <label>
+    Scheduled At:
+    <input type="datetime-local" formControlName="scheduledAt" />
+  </label>
+  <label>
+    Note:
+    <input formControlName="note" />
+  </label>
+  <button type="submit" [disabled]="scheduleForm.invalid || loading()">Create Schedule</button>
+</form>

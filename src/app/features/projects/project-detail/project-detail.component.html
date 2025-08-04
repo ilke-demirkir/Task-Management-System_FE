@@ -1,0 +1,32 @@
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<div *ngIf="project()">
+  <h2>Project: {{ project()?.name }}</h2>
+  <div><strong>Description:</strong> {{ project()?.description }}</div>
+  <div><strong>Type:</strong> {{ project()?.projectType }}</div>
+  <div><strong>Created At:</strong> {{ project()?.createdAt | date:'short' }}</div>
+  <div><strong>Owner:</strong> {{ project()?.ownerId }}</div>
+
+  <h3>Tasks</h3>
+  <table *ngIf="tasks().length">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Assigned To</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks()">
+        <td>{{ task.title }}</td>
+        <td>{{ task.description }}</td>
+        <td>{{ task.dueDate | date:'short' }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.assignedToId }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!tasks().length">No tasks found for this project.</div>
+</div>

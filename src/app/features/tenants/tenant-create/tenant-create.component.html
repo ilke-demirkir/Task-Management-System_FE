@@ -1,0 +1,10 @@
+<form [formGroup]="tenantForm" (ngSubmit)="createTenant()">
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">Tenant created!</div>
+
+  <label>
+    Tenant Name:
+    <input formControlName="name" />
+  </label>
+  <button type="submit" [disabled]="tenantForm.invalid">Create Tenant</button>
+</form>

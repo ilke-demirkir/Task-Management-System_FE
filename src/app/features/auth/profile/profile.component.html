@@ -1,0 +1,28 @@
+<form [formGroup]="profileForm" (ngSubmit)="save()">
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">Profile updated!</div>
+
+  <div>
+    <div class="avatar">
+      <img *ngIf="profileForm.value.avatarUrl" [src]="profileForm.value.avatarUrl" alt="Avatar" width="80" height="80" />
+      <span *ngIf="!profileForm.value.avatarUrl">No Avatar</span>
+    </div>
+    <label>
+      Full Name:
+      <input formControlName="fullName" />
+    </label>
+    <label>
+      Email:
+      <input formControlName="email" readonly />
+    </label>
+    <label>
+      Job Title:
+      <input formControlName="jobTitle" />
+    </label>
+    <label>
+      Active:
+      <input type="checkbox" formControlName="isActive" />
+    </label>
+    <button type="submit" [disabled]="profileForm.invalid">Save</button>
+  </div>
+</form>

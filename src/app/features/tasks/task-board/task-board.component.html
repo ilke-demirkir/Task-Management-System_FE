@@ -1,0 +1,18 @@
+<div *ngIf="loading()">Loading tasks...</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<div class="board" *ngIf="!loading()">
+  <div class="column" *ngFor="let status of statuses">
+    <h3>{{ status }}</h3>
+    <div class="task-card" *ngFor="let task of tasksByStatus()[status]">
+      <div><strong>{{ task.title }}</strong></div>
+      <div>{{ task.description }}</div>
+      <div>Due: {{ task.dueDate | date:'short' }}</div>
+      <div>Status: {{ task.status }}</div>
+      <div>Assigned To: {{ task.assignedToId }}</div>
+      <div>Project: {{ task.projectId }}</div>
+      <!-- <button>View</button> -->
+    </div>
+    <div *ngIf="!tasksByStatus()[status].length">No tasks</div>
+  </div>
+</div>

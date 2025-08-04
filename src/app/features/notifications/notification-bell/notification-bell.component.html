@@ -1,0 +1,7 @@
+<div class="notification-bell" data-cy="notification-bell">
+  <span *ngIf="loading()">🔔 ...</span>
+  <span *ngIf="!loading()">
+    🔔
+    <span *ngIf="unreadCount() > 0" class="badge" data-cy="notification-badge">{{ unreadCount() }}</span>
+  </span>
+</div>

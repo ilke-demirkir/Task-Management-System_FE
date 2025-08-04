@@ -1,0 +1,19 @@
+<form [formGroup]="labelForm" (ngSubmit)="createLabel()">
+  <div *ngIf="loading()">Creating label...</div>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">Label created!</div>
+
+  <label>
+    Tenant ID:
+    <input formControlName="tenantId" />
+  </label>
+  <label>
+    Name:
+    <input formControlName="name" />
+  </label>
+  <label>
+    Color:
+    <input formControlName="color" type="color" />
+  </label>
+  <button type="submit" [disabled]="labelForm.invalid || loading()">Create Label</button>
+</form>

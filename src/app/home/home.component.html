@@ -1,0 +1,77 @@
+<div class="home-container">
+    <!-- Welcome Section -->
+    <mat-card class="welcome-card">
+      <mat-card-title>Welcome back, <span class="username">User</span>!</mat-card-title>
+      <mat-card-content>
+        <p>Your productivity hub for managing projects, tasks, and more.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Summary Cards -->
+    <div class="summary-section">
+      <mat-card class="summary-card">
+        <mat-card-title>Projects</mat-card-title>
+        <mat-card-content>
+          <h2>12</h2>
+          <p>Total Projects</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="summary-card">
+        <mat-card-title>Tasks</mat-card-title>
+        <mat-card-content>
+          <h2>34</h2>
+          <p>Open Tasks</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="summary-card">
+        <mat-card-title>Notifications</mat-card-title>
+        <mat-card-content>
+          <h2>5</h2>
+          <p>Unread Notifications</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="summary-card">
+        <mat-card-title>Deadlines</mat-card-title>
+        <mat-card-content>
+          <h2>3</h2>
+          <p>Upcoming Deadlines</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-links">
+      <mat-card class="quick-link-card">
+        <mat-card-title>Quick Actions</mat-card-title>
+        <mat-card-content>
+          <button mat-raised-button color="primary" routerLink="/task-create">Create Task</button>
+          <button mat-raised-button color="accent" routerLink="/project-create">Create Project</button>
+          <button mat-stroked-button color="primary" routerLink="/dashboard">Go to Dashboard</button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Recent Activity / Announcements -->
+    <div class="activity-section">
+      <mat-card class="activity-card">
+        <mat-card-title>Recent Activity</mat-card-title>
+        <mat-card-content>
+          <ul>
+            <li>Task <b>"Design UI"</b> marked as complete</li>
+            <li>New project <b>"Website Redesign"</b> created</li>
+            <li>Comment added to <b>"API Integration"</b></li>
+            <li>Deadline approaching for <b>"Release v1.0"</b></li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="activity-card">
+        <mat-card-title>Announcements</mat-card-title>
+        <mat-card-content>
+          <ul>
+            <li>System maintenance scheduled for Friday 10pm.</li>
+            <li>New feature: Task labels now available!</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

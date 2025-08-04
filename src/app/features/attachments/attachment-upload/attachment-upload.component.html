@@ -1,0 +1,15 @@
+<form [formGroup]="uploadForm" (ngSubmit)="uploadAttachment()">
+  <div *ngIf="loading()">Uploading attachment...</div>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">Attachment uploaded!</div>
+
+  <label>
+    File:
+    <input type="file" (change)="onFileChange($event)" />
+  </label>
+  <label>
+    File Name:
+    <input formControlName="fileName" />
+  </label>
+  <button type="submit" [disabled]="uploadForm.invalid || loading()">Upload Attachment</button>
+</form>

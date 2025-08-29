@@ -14,6 +14,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { ActivatedRoute, Router } from "@angular/router";
+import { MatSelectModule } from "@angular/material/select";
 
 @Component({
   selector: "app-project-edit",
@@ -28,13 +29,13 @@ import { ActivatedRoute, Router } from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
   ],
 })
 export class ProjectEditComponent implements OnInit {
   projectForm: FormGroup;
   loading = signal(false);
   error = signal<string | null>(null);
-  success = signal(false);
   projectId: string | null = null;
 
   constructor(
@@ -45,6 +46,7 @@ export class ProjectEditComponent implements OnInit {
     private router: Router,
   ) {
     this.projectForm = this.fb.group({
+      id: [this.projectId],
       name: ["", Validators.required],
       description: [""],
       projectType: ["", Validators.required],
@@ -74,17 +76,16 @@ export class ProjectEditComponent implements OnInit {
     if (this.projectForm.invalid || !this.projectId) return;
     this.loading.set(true);
     this.error.set(null);
-    this.success.set(false);
-    this.projectService.updateProject(this.projectId, this.projectForm.value)
+    this.projectService.updateProject(this.projectForm.value)
       .subscribe({
         next: () => {
-          this.success.set(true);
           this.toastService.show("Project updated!", "success");
           this.loading.set(false);
-          this.router.navigate(["/projects", this.projectId]);
+          this.router.navigate(["/projects"]);
         },
-        error: () => {
+        error: (err) => {
           this.error.set("Failed to update project.");
+          console.error("Failed to update project.", err);
           this.toastService.show("Failed to update project.", "error");
           this.loading.set(false);
         },

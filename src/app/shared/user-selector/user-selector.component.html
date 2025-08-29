@@ -1,10 +1,16 @@
-<div *ngIf="loading()">Loading users...</div>
-<div *ngIf="error()" class="error">{{ error() }}</div>
+<mat-form-field [appearance]="appearance" class="w-full">
+  <mat-label>{{ label }} </mat-label>
+  <mat-select
+    [disabled]="isDisabled"
+    [value]="value"
+    (selectionChange)="pick($event.value)"
+  >
+    <mat-option [value]="null">-- Select a user --</mat-option>
+    <mat-option *ngFor="let u of users()" [value]="u.id">{{
+        u.fullName
+      }}</mat-option>
+  </mat-select>
+</mat-form-field>
 
-<select [value]="selectedUserId" (change)="onSelectChange($event)" *ngIf="!loading() && users().length">
-  <option value="" disabled selected>Select a user</option>
-  <option *ngFor="let user of users()" [value]="user.id">
-    {{ user.fullName }} ({{ user.email }})
-  </option>
-</select>
-<div *ngIf="!loading() && !users().length">No users found.</div>
+<div *ngIf="loading()">Loading users…</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>

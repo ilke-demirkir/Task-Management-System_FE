@@ -1,11 +1,16 @@
-<form [formGroup]="projectForm" (ngSubmit)="createProject()" class="project-form">
+<form
+  [formGroup]="projectForm"
+  (ngSubmit)="createProject()"
+  class="project-form"
+>
   <mat-card>
     <mat-card-title>Create Project</mat-card-title>
     <mat-card-content>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" />
-        <mat-error *ngIf="projectForm.get('name')?.hasError('required')">Name is required</mat-error>
+        <mat-error *ngIf="projectForm.get('name')?.hasError('required')"
+        >Name is required</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -13,21 +18,39 @@
         <textarea matInput formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Project Type</mat-label>
-        <input matInput formControlName="projectType" />
-        <mat-error *ngIf="projectForm.get('projectType')?.hasError('required')">Project type is required</mat-error>
+      <mat-form-field
+        *ngIf="authService.isAdmin()"
+        appearance="outline"
+        class="full-width"
+      >
+        <mat-label>Tenant</mat-label>
+        <mat-select formControlName="tenantId">
+          <mat-option *ngFor="let tenant of tenants" [value]="tenant.id">
+            {{ tenant.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="projectForm.get('tenantId')?.hasError('required')"
+        >Tenant is required</mat-error>
       </mat-form-field>
 
-      <div class="form-group">
-        <label for="owner">Owner</label>
-        <app-user-selector id="owner" (selectionChange)="projectForm.get('ownerId')?.setValue($event)"></app-user-selector>
-        <mat-error *ngIf="projectForm.get('ownerId')?.hasError('required')">Owner is required</mat-error>
-      </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Project Type</mat-label>
+        <mat-select formControlName="projectType">
+          <mat-option *ngFor="let types of projectTypes" [value]="types">
+            {{ humanize(types) }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="projectForm.get('projectType')?.hasError('required')"
+        >Project type is required</mat-error>
+      </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="projectForm.invalid || loading()">
-        {{ loading() ? 'Creating...' : 'Create Project' }}
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="projectForm.invalid || loading()"
+      >
+        {{ loading() ? "Creating..." : "Create Project" }}
       </button>
     </mat-card-actions>
   </mat-card>

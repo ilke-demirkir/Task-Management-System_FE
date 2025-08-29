@@ -1,65 +1,102 @@
-import { ErrorHandler, Injectable, Injector, inject } from '@angular/core';
-import { ToastService } from './toast/toast.service';
+import {
+  ErrorHandler,
+  inject,
+  Injectable,
+  Injector,
+  isDevMode,
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { ToastService } from "./toast/toast.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class GlobalErrorHandler implements ErrorHandler {
+  // inject() works at property level now
   private injector = inject(Injector);
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() {}
-
-  handleError(error: any): void {
+  handleError(error: unknown): void {
+    let userMessage = "An unexpected error occurred.";
+    const router = this.injector.get(Router);
     const toastService = this.injector.get(ToastService);
-    let message = 'An unexpected error occurred.';
 
-    // HTTP error with status
-    if (error && error.status) {
-      if (error.status === 401 || error.status === 403) {
-        message = 'Session expired. Please log in again.';
-      } else if (error.status === 0) {
-        message = 'Network error. Please check your connection.';
-      } else if (error.status === 400 && error.error && typeof error.error === 'object') {
-        // Validation error: show first message or summary
-        const validationMsg = this.extractValidationMessage(error.error);
-        if (validationMsg) message = validationMsg;
-      } else if (error.error && typeof error.error === 'string') {
-        message = error.error;
-      } else if (error.error && error.error.message) {
-        message = error.error.message;
-      } else if (error.message) {
-        message = error.message;
-      }
-    } else if (error && typeof error === 'object') {
-      if (error.message) {
-        message = error.message;
-      } else if (error.error && typeof error.error === 'string') {
-        message = error.error;
-      } else if (error.error && error.error.message) {
-        message = error.error.message;
-      }
-    } else if (typeof error === 'string') {
-      message = error;
+    // 1) HTTP errors
+    if (error instanceof HttpErrorResponse) {
+      userMessage = this.handleHttpError(error);
+
+      // 2) Client-side / runtime errors
+    } else if (error instanceof Error) {
+      userMessage = error.message;
+
+      // 3) String errors
+    } else if (typeof error === "string") {
+      userMessage = error;
     }
 
-    toastService.show(message, 'error');
-    // Optionally log to console or remote server
-    console.error(error);
+    // Show it
+    toastService.show(userMessage, "error");
+
+    // Log it (console or remote)
+    if (isDevMode()) {
+      console.error("🛑 GlobalErrorHandler caught:", error);
+    } else {
+      // send to your logging endpoint
+      // e.g. this.loggingService.logError(error);
+    }
   }
 
-  private extractValidationMessage(errorObj: any): string | null {
-    if (!errorObj) return null;
-    if (Array.isArray(errorObj.errors) && errorObj.errors.length > 0) {
+  private handleHttpError(err: HttpErrorResponse): string {
+    const router = this.injector.get(Router);
+
+    // Network down
+    if (err.status === 0) {
+      return "Network error — please check your connection.";
+    }
+
+    // Unauthorized / Forbidden
+    if (err.status === 401 || err.status === 403) {
+      // clear tokens/session if needed
+      router.navigate(["/login"]);
+      return "Session expired. Please log in again.";
+    }
+
+    // Validation errors (400 with a structured payload)
+    if (err.status === 400 && err.error && typeof err.error === "object") {
+      const valMsg = this.extractFirstValidationError(err.error);
+      if (valMsg) return valMsg;
+    }
+
+    // Server-sent string or message field
+    if (typeof err.error === "string") {
+      return err.error;
+    }
+    if (err.error?.message) {
+      return err.error.message;
+    }
+
+    // Fallback by status code
+    switch (err.status) {
+      case 404:
+        return "Requested resource not found.";
+      case 500:
+        return "Server error — please try again later.";
+      default:
+        return `Error ${err.status}: ${err.statusText || err.message}`;
+    }
+  }
+
+  private extractFirstValidationError(errorObj: any): string | null {
+    // look for { errors: { field: [ msgs ] } } or { errors: [ msgs ] }
+    if (Array.isArray(errorObj?.errors) && errorObj.errors.length) {
       return errorObj.errors[0];
     }
-    if (typeof errorObj === 'object') {
-      for (const key of Object.keys(errorObj)) {
-        if (Array.isArray(errorObj[key]) && errorObj[key].length > 0) {
-          return errorObj[key][0];
+    if (typeof errorObj.errors === "object") {
+      for (const field of Object.keys(errorObj.errors)) {
+        const msgs = errorObj.errors[field];
+        if (Array.isArray(msgs) && msgs.length) {
+          return msgs[0];
         }
       }
     }
     return null;
   }
-} 
+}

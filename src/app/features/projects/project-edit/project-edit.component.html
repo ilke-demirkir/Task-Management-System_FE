@@ -1,11 +1,16 @@
-<form [formGroup]="projectForm" (ngSubmit)="updateProject()" class="project-form">
+<form
+  [formGroup]="projectForm"
+  (ngSubmit)="updateProject()"
+  class="project-form"
+>
   <mat-card>
     <mat-card-title>Edit Project</mat-card-title>
     <mat-card-content>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" />
-        <mat-error *ngIf="projectForm.get('name')?.hasError('required')">Name is required</mat-error>
+        <mat-error *ngIf="projectForm.get('name')?.hasError('required')"
+        >Name is required</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -16,18 +21,28 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Project Type</mat-label>
         <input matInput formControlName="projectType" />
-        <mat-error *ngIf="projectForm.get('projectType')?.hasError('required')">Project type is required</mat-error>
+        <mat-error *ngIf="projectForm.get('projectType')?.hasError('required')"
+        >Project type is required</mat-error>
       </mat-form-field>
 
       <div class="form-group">
-        <label for="owner">Owner</label>
-        <app-user-selector id="owner" (selectionChange)="projectForm.get('ownerId')?.setValue($event)"></app-user-selector>
-        <mat-error *ngIf="projectForm.get('ownerId')?.hasError('required')">Owner is required</mat-error>
+        <app-user-selector
+          formControlName="ownerId"
+          appearance="outline"
+          label="Owner"
+          class="user-selector"
+        >
+        </app-user-selector>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="projectForm.invalid || loading()">
-        {{ loading() ? 'Saving...' : 'Save Changes' }}
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="projectForm.invalid || loading()"
+      >
+        {{ loading() ? "Saving..." : "Save Changes" }}
       </button>
     </mat-card-actions>
   </mat-card>

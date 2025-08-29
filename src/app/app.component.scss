@@ -1,3 +1,6 @@
+/* src/styles.css */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 .sidenav-container {
   height: 100vh;
 }
@@ -6,7 +9,7 @@
   width: 250px;
   background: #23272f;
   color: #fff;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-title {
@@ -58,6 +61,7 @@
   margin: 0;
   display: flex;
   align-items: center;
+  color: #fff;
 }
 
 .home-link {

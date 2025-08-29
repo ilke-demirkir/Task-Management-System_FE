@@ -3,11 +3,36 @@
 
 <div *ngIf="!loading() && user()">
   <div class="avatar">
-    <img *ngIf="user()?.avatarUrl" [src]="user()?.avatarUrl" alt="Avatar" width="80" height="80" />
+    <img
+      *ngIf="user()?.avatarUrl"
+      [src]="user()?.avatarUrl"
+      alt="Avatar"
+      width="80"
+      height="80"
+    />
     <span *ngIf="!user()?.avatarUrl">No Avatar</span>
   </div>
-  <div><strong>Full Name:</strong> {{ user()?.fullName }}</div>
-  <div><strong>Email:</strong> {{ user()?.email }}</div>
-  <div><strong>Job Title:</strong> {{ user()?.jobTitle }}</div>
-  <div><strong>Active:</strong> <span [class.active]="user()?.isActive" [class.inactive]="!user()?.isActive">{{ user()?.isActive ? 'Yes' : 'No' }}</span></div>
+  <div>
+    <strong>Full Name:</strong>
+    {{ user()?.fullName }}
+  </div>
+  <div>
+    <strong>Email:</strong>
+    {{ user()?.email }}
+  </div>
+  <div>
+    <strong>Job Title:</strong>
+    {{ user()?.jobTitle }}
+  </div>
+  <div>
+    <strong>Active:</strong>
+    <span
+      [class.active]="user()?.isActive"
+      [class.inactive]="!user()?.isActive"
+    >{{ user()?.isActive ? "Yes" : "No" }}</span>
+  </div>
+  <div></div>
+  <div *ngIf="this.id">
+    <button [routerLink]='["/users"]'>Back to Users</button>
+  </div>
 </div>

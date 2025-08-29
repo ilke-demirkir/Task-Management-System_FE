@@ -1,16 +1,17 @@
-import { Component, signal, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TenantService } from '../../../services/tenant.service';
-import { ToastService } from '../../../shared/toast/toast.service';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { TenantService } from "../../../services/tenant.service";
+import { ToastService } from "../../../shared/toast/toast.service";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: 'app-tenant-create',
+  selector: "app-tenant-create",
   standalone: true,
-  templateUrl: './tenant-create.component.html',
-  styleUrls: ['./tenant-create.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule]
+  templateUrl: "./tenant-create.component.html",
+  styleUrls: ["./tenant-create.component.scss"],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
 })
 export class TenantCreateComponent {
   private fb = inject(FormBuilder);
@@ -26,7 +27,7 @@ export class TenantCreateComponent {
 
   constructor() {
     this.tenantForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ["", Validators.required],
     });
   }
 
@@ -38,12 +39,12 @@ export class TenantCreateComponent {
       next: () => {
         this.success.set(true);
         this.tenantForm.reset();
-        this.toastService.show('Tenant created!', 'success');
+        this.toastService.show("Tenant created!", "success");
       },
       error: () => {
-        this.error.set('Failed to create tenant.');
-        this.toastService.show('Failed to create tenant.', 'error');
-      }
+        this.error.set("Failed to create tenant.");
+        this.toastService.show("Failed to create tenant.", "error");
+      },
     });
   }
 }

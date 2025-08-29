@@ -1,12 +1,12 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ApplicationUserDto } from '../models/user.model';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { ApplicationUserDto } from "../models/user.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class UserService {
   private http = inject(HttpClient);
-  private apiUrl = '/api/applicationusers';
+  private apiUrl = "https://localhost:5097/api/applicationusers";
 
   getUsers(): Observable<ApplicationUserDto[]> {
     return this.http.get<ApplicationUserDto[]>(this.apiUrl);
@@ -15,8 +15,19 @@ export class UserService {
   getUser(id: string): Observable<ApplicationUserDto> {
     return this.http.get<ApplicationUserDto>(`${this.apiUrl}/${id}`);
   }
+  getUserByEmail(
+    email: string,
+  ): Observable<ApplicationUserDto> {
+    return this.http.get<ApplicationUserDto>(
+      `${this.apiUrl}/email`,
+      { params: { email } },
+    );
+  }
 
-  updateUser(id: string, user: Partial<ApplicationUserDto>): Observable<ApplicationUserDto> {
+  updateUser(
+    id: string,
+    user: Partial<ApplicationUserDto>,
+  ): Observable<ApplicationUserDto> {
     return this.http.put<ApplicationUserDto>(`${this.apiUrl}/${id}`, user);
   }
 
@@ -26,5 +37,11 @@ export class UserService {
 
   registerOneSignalId(oneSignalId: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/onesignal-id`, { oneSignalId });
+  }
+  search(query: string): Observable<ApplicationUserDto[]> {
+    return this.http.get<ApplicationUserDto[]>(
+      `${this.apiUrl}/search`,
+      { params: { emailFragment: query, limit: 10 } },
+    );
   }
 }

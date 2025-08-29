@@ -1,0 +1,46 @@
+/* project-form.component.scss */
+
+/* Make the card look clean and centered */
+.project-form mat-card {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Title spacing */
+.project-form mat-card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Stack fields neatly with consistent spacing */
+.project-form mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Ensure form fields stretch full width */
+.full-width,
+.project-form mat-form-field,
+.project-form .user-selector {
+    width: 100%;
+    display: block;
+}
+
+/* Button row aligned to right */
+.project-form mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+}
+
+/* Optional: make textarea a bit taller */
+.project-form textarea[matInput] {
+    min-height: 80px;
+    resize: vertical;
+}

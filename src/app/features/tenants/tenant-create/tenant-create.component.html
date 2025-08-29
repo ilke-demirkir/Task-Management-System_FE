@@ -7,4 +7,14 @@
     <input formControlName="name" />
   </label>
   <button type="submit" [disabled]="tenantForm.invalid">Create Tenant</button>
+
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]='["/tenants"]'
+    >
+      See All Tenants
+    </button>
+  </div>
 </form>

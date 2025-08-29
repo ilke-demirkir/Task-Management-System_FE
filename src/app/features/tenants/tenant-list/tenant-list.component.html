@@ -1,5 +1,17 @@
 <div>
-  <app-search-bar [placeholder]="'Search tenants...'" (search)="search.setValue($event)"></app-search-bar>
+  <app-search-bar
+    [placeholder]='"Search tenants..."'
+    (search)="search.setValue($event)"
+  ></app-search-bar>
+
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]='["/tenants", "create"]'
+    class="create-tenant-button"
+  >
+    Create a new Tenant
+  </button>
 </div>
 
 <div *ngIf="error()" class="error">{{ error() }}</div>
@@ -16,11 +28,44 @@
     <tr *ngFor="let tenant of filteredTenants()">
       <td>{{ tenant.name }}</td>
       <td>{{ tenant.id }}</td>
+      <td *ngIf="authService.isAdmin() == false">
+        <a
+          *ngIf="isSelected(tenant.id);
+          else
+          tenantNotSelected"
+          class="selected"
+        >
+          Selected
+        </a>
+      </td>
+      <ng-template #tenantNotSelected>
+        <button (click)="selectTenant(tenant.id, tenant.name)">
+          Select
+        </button>
+      </ng-template>
       <td>
-        <button [appConfirmClick]="{ title: 'Delete Tenant', message: 'Are you sure you want to delete this tenant?' }" (confirmed)="deleteTenant(tenant.id)">Delete</button>
+        <button [routerLink]='["/tenants", tenant.id]'>
+          View Details
+        </button>
+      </td>
+      <td>
+        <button (click)="confirmDelete(tenant.id)">
+          Delete
+        </button>
       </td>
     </tr>
   </tbody>
 </table>
+<ng-template #confirmDeleteDialog let-dialogRef="dialogRef" let-data="data">
+  <h2 mat-dialog-title>Delete Tenant</h2>
+  <mat-dialog-content>Are you sure you want to delete this
+    tenant?</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+    <button mat-button color="warn" (click)="dialogRef.close(true)">
+      Delete
+    </button>
+  </mat-dialog-actions>
+</ng-template>
 
 <div *ngIf="!filteredTenants().length">No tenants found.</div>

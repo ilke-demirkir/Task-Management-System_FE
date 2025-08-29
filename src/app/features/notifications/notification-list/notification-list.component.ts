@@ -1,17 +1,17 @@
-import { Component, OnInit, signal, computed, inject } from '@angular/core';
-import { NotificationService } from '../../../services/notification.service';
-import { NotificationDto } from '../../../models/notification.model';
-import { AuthService } from '../../../services/auth.service';
-import { StatusBadgeComponent } from '../../../shared/status-badge/status-badge.component';
-import { CommonModule } from '@angular/common';
-import { DatePipe } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from "@angular/core";
+import { NotificationService } from "../../../services/notification.service";
+import { NotificationDto } from "../../../models/notification.model";
+import { AuthService } from "../../../services/auth.service";
+import { StatusBadgeComponent } from "../../../shared/status-badge/status-badge.component";
+import { CommonModule } from "@angular/common";
+import { DatePipe } from "@angular/common";
 
 @Component({
-  selector: 'app-notification-list',
+  selector: "app-notification-list",
   standalone: true,
-  templateUrl: './notification-list.component.html',
-  styleUrls: ['./notification-list.component.scss'],
-  imports: [StatusBadgeComponent, CommonModule, DatePipe]
+  templateUrl: "./notification-list.component.html",
+  styleUrls: ["./notification-list.component.scss"],
+  imports: [StatusBadgeComponent, CommonModule, DatePipe],
 })
 export class NotificationListComponent implements OnInit {
   private notificationService = inject(NotificationService);
@@ -30,7 +30,7 @@ export class NotificationListComponent implements OnInit {
     const token = this.authService.getToken();
     if (!token) return null;
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const payload = JSON.parse(atob(token.split(".")[1]));
       return payload.sub || payload.userId || null;
     } catch {
       return null;
@@ -39,10 +39,14 @@ export class NotificationListComponent implements OnInit {
 
   userNotifications = computed(() => {
     const userId = this.getCurrentUserId();
-    return userId ? this.notifications().filter(n => n.userId === userId) : [];
+    return userId
+      ? this.notifications().filter((n) => n.userId === userId)
+      : [];
   });
 
   ngOnInit() {
+    console.log("NotificationListComponent initializing…");
+
     this.fetchNotifications();
   }
 
@@ -55,9 +59,9 @@ export class NotificationListComponent implements OnInit {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('Failed to load notifications.');
+        this.error.set("Failed to load notifications.");
         this.loading.set(false);
-      }
+      },
     });
   }
 }

@@ -1,14 +1,22 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { TaskDto } from '../models/task.model';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { TaskDto } from "../models/task.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class TaskService {
   private http = inject(HttpClient);
-  private apiUrl = '/api/tasks';
+  private apiUrl = "https://localhost:5097/api/tasks";
 
-  createTask(payload: { title: string; description: string; dueDate: string; projectId: string; assignedToId: string }): Observable<TaskDto> {
+  createTask(
+    payload: {
+      title: string;
+      description: string;
+      dueDate: string;
+      projectId: string;
+      assignedToId: string;
+    },
+  ): Observable<TaskDto> {
     return this.http.post<TaskDto>(this.apiUrl, payload);
   }
 

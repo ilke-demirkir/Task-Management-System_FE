@@ -6,7 +6,7 @@
     <div>
       <strong>User:</strong>
       <ng-container *ngIf="userMap[comment.userId] as user">
-        <app-user-avatar [avatarUrl]="user.avatarUrl" [fullName]="user.fullName"></app-user-avatar>
+        <app-user-avatar [avatarUrl]="user.avatarUrl || 'assets/225-default-avatar.svg'"  [fullName]="user.fullName"></app-user-avatar>
         {{ user.fullName }}
       </ng-container>
       <ng-container *ngIf="!userMap[comment.userId]">{{ comment.userId }}</ng-container>

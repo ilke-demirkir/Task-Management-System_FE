@@ -6,4 +6,5 @@ export interface TaskDto {
   status: string;
   assignedToId: string;
   projectId: string;
-} 
+  assignedTo?: string; // optional, for display purposes
+}

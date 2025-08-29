@@ -1,14 +1,16 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ScheduleDto } from '../models/schedule.model';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { ScheduleDto } from "../models/schedule.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ScheduleService {
   private http = inject(HttpClient);
-  private apiUrl = '/api/schedules';
+  private apiUrl = "https://localhost:5097/api/schedules";
 
-  createSchedule(payload: { taskId: string; scheduledAt: string; note: string }): Observable<ScheduleDto> {
+  createSchedule(
+    payload: { taskId: string; scheduledAt: string; note: string },
+  ): Observable<ScheduleDto> {
     return this.http.post<ScheduleDto>(this.apiUrl, payload);
   }
 

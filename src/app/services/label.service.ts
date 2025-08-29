@@ -1,14 +1,16 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { LabelDto } from '../models/label.model';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { LabelDto } from "../models/label.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class LabelService {
   private http = inject(HttpClient);
-  private apiUrl = '/api/labels';
+  private apiUrl = "https://localhost:5097/api/labels";
 
-  createLabel(payload: { tenantId: string; name: string; color: string }): Observable<LabelDto> {
+  createLabel(
+    payload: { tenantId: string; name: string; color: string },
+  ): Observable<LabelDto> {
     return this.http.post<LabelDto>(this.apiUrl, payload);
   }
 

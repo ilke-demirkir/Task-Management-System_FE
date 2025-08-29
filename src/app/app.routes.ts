@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { RoleGuard } from "./core/guards/role.guard";
-
+import { TenantSelectedGuard } from "./shared/tenant-selected.guard";
 export const routes: Routes = [
   {
     path: "home",
@@ -35,7 +35,7 @@ export const routes: Routes = [
       import("./features/tasks/task-list/task-list.component").then((m) =>
         m.TaskListComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -44,7 +44,7 @@ export const routes: Routes = [
       import("./features/tasks/task-create/task-create.component").then((m) =>
         m.TaskCreateComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager"] },
   },
   {
@@ -53,7 +53,7 @@ export const routes: Routes = [
       import("./features/tasks/task-detail/task-detail.component").then((m) =>
         m.TaskDetailComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -62,7 +62,7 @@ export const routes: Routes = [
       import("./features/tasks/task-edit/task-edit.component").then((m) =>
         m.TaskEditComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager"] },
   },
   {
@@ -71,24 +71,33 @@ export const routes: Routes = [
       import("./features/projects/project-list/project-list.component").then(
         (m) => m.ProjectListComponent,
       ),
-    canActivate: [RoleGuard],
-    data: { roles: ["Admin", "Manager"] },
+    canActivate: [RoleGuard, TenantSelectedGuard],
+    data: { roles: ["Admin", "Manager", "User"] },
   },
   {
     path: "projects/create",
     loadComponent: () =>
       import("./features/projects/project-create/project-create.component")
         .then((m) => m.ProjectCreateComponent),
-    canActivate: [RoleGuard],
-    data: { roles: ["Admin"] },
+    canActivate: [RoleGuard, TenantSelectedGuard],
+    data: { roles: ["Admin", "Manager"] },
   },
   {
     path: "projects/:id",
     loadComponent: () =>
       import("./features/projects/project-detail/project-detail.component")
         .then((m) => m.ProjectDetailComponent),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
+  },
+  {
+    path: "projects/:id/edit",
+    loadComponent: () =>
+      import("./features/projects/project-edit/project-edit.component").then(
+        (m) => m.ProjectEditComponent,
+      ),
+    canActivate: [RoleGuard, TenantSelectedGuard],
+    data: { roles: ["Admin", "Manager"] },
   },
   {
     path: "users",
@@ -96,7 +105,7 @@ export const routes: Routes = [
       import("./features/users/user-list/user-list.component").then((m) =>
         m.UserListComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin"] },
   },
   {
@@ -105,7 +114,7 @@ export const routes: Routes = [
       import("./features/users/user-profile/user-profile.component").then((m) =>
         m.UserProfileComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -115,7 +124,7 @@ export const routes: Routes = [
         m.TenantListComponent
       ),
     canActivate: [RoleGuard],
-    data: { roles: ["Admin"] },
+    data: { roles: ["Admin", "Manager", "User"] },
   },
   {
     path: "tenants/create",
@@ -123,7 +132,7 @@ export const routes: Routes = [
       import("./features/tenants/tenant-create/tenant-create.component").then(
         (m) => m.TenantCreateComponent,
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin"] },
   },
   {
@@ -132,7 +141,7 @@ export const routes: Routes = [
       import("./features/tenants/tenant-detail/tenant-detail.component").then(
         (m) => m.TenantDetailComponent,
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager"] },
   },
   // --- Placeholders for future features ---
@@ -142,7 +151,7 @@ export const routes: Routes = [
       import("./features/comments/comment-list/comment-list.component").then(
         (m) => m.CommentListComponent,
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -150,7 +159,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./features/attachments/attachment-list/attachment-list.component")
         .then((m) => m.AttachmentListComponent),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -159,7 +168,7 @@ export const routes: Routes = [
       import("./features/labels/label-list/label-list.component").then((m) =>
         m.LabelListComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -168,7 +177,7 @@ export const routes: Routes = [
       import(
         "./features/notifications/notification-list/notification-list.component"
       ).then((m) => m.NotificationListComponent),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -177,7 +186,7 @@ export const routes: Routes = [
       import("./features/schedules/schedule-list/schedule-list.component").then(
         (m) => m.ScheduleListComponent,
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   {
@@ -186,7 +195,7 @@ export const routes: Routes = [
       import("./features/users/user-profile/user-profile.component").then((m) =>
         m.UserProfileComponent
       ),
-    canActivate: [RoleGuard],
+    canActivate: [RoleGuard, TenantSelectedGuard],
     data: { roles: ["Admin", "Manager", "User"] },
   },
   // --- Default redirect ---

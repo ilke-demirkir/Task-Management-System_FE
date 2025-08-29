@@ -5,28 +5,37 @@
   <div><strong>ID:</strong> {{ tenant()?.id }}</div>
 
   <h3>Members</h3>
-  <table *ngIf="tenantUsers().length">
+  <table *ngIf="this.members.length" class="members-table">
     <thead>
       <tr>
         <th>Full Name</th>
         <th>Email</th>
-        <th>Job Title</th>
-        <th>Active</th>
+       
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of tenantUsers()">
+      <tr *ngFor="let user of this.members">
         <td>{{ user.fullName }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.jobTitle }}</td>
-        <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
+        <td>
+          <button *ngIf="authService.isAdmin()" (click)="removeUser(user.userId)">
+            Remove
+          </button>
+        </td>
       </tr>
+      <tr *ngIf="authService.isAdmin()">
+        
     </tbody>
   </table>
-  <div *ngIf="!tenantUsers().length">No members found.</div>
+  <div>
+    <button mat-raised-button color="primary" (click)="addUsers()">
+      Add User to Tenant
+    </button>
+  </div>
+  <div *ngIf="!this.members.length">No members found.</div>
 
   <h3>Projects</h3>
-  <table *ngIf="tenantProjects().length">
+  <table *ngIf="this.projects.length">
     <thead>
       <tr>
         <th>Name</th>
@@ -36,13 +45,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let project of tenantProjects()">
+      <tr *ngFor="let project of this.projects">
         <td>{{ project.name }}</td>
         <td>{{ project.description }}</td>
         <td>{{ project.projectType }}</td>
-        <td>{{ project.ownerId }}</td>
+        <td>{{ project.ownerName }}</td>
+        <td>
+          <button [routerLink]="['/projects', project.id]">
+            View Details
+          </button>
+        </td>
+        <td *ngIf="authService.isAdmin()">
+          <button (click)="deleteProject(project.id)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
-  <div *ngIf="!tenantProjects().length">No projects found.</div>
+  <div *ngIf="authService.isAdmin() || authService.isManager()">
+    <button mat-raised-button color="primary" [routerLink]="['/projects', 'create']">
+      Create Project
+    </button>
+  </div>
+  <div *ngIf="!this.projects">No projects found.</div>
+  <div>
+    <button mat-raised-button routerLink="/tenants"> Back to Tenants</button>
+  </div>
 </div>

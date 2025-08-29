@@ -62,6 +62,7 @@ export class RegisterComponent {
       jobTitle: "",
       isActive: true,
       password: this.form.value.password,
+      role: "User", // Default role, can be changed later
     };
     this.auth.register(payload).subscribe({
       next: () => {

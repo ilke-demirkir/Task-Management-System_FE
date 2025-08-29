@@ -5,7 +5,7 @@
   <div><strong>Description:</strong> {{ project()?.description }}</div>
   <div><strong>Type:</strong> {{ project()?.projectType }}</div>
   <div><strong>Created At:</strong> {{ project()?.createdAt | date:'short' }}</div>
-  <div><strong>Owner:</strong> {{ project()?.ownerId }}</div>
+  <div><strong>Owner:</strong> {{ project()?.ownerName }}</div>
 
   <h3>Tasks</h3>
   <table *ngIf="tasks().length">
@@ -24,9 +24,18 @@
         <td>{{ task.description }}</td>
         <td>{{ task.dueDate | date:'short' }}</td>
         <td>{{ task.status }}</td>
-        <td>{{ task.assignedToId }}</td>
+        <td>{{ task.assignedTo }}</td>
       </tr>
     </tbody>
   </table>
   <div *ngIf="!tasks().length">No tasks found for this project.</div>
+  <div>
+    <button mat-raised-button color="primary" (click)="addTask()">
+      Add Task
+    </button>
+    <button mat-raised-button (click)="goBack()">
+      Go Back
+    </button> 
+  </div>
+
 </div>

@@ -1,91 +1,176 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" mode="side" opened>
-    <mat-toolbar color="primary" class="sidebar-title">Task Manager</mat-toolbar>
+    <mat-toolbar color="primary" class="sidebar-title"
+    >Task Manager</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/home" routerLinkActive="active" class="sidebar-link home-link">
+      <a
+        mat-list-item
+        routerLink="/home"
+        routerLinkActive="active"
+        class="sidebar-link home-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>home</mat-icon>
           <span>Home</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active" class="sidebar-link dashboard-link">
+      <a
+        mat-list-item
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        class="sidebar-link dashboard-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>dashboard</mat-icon>
           <span>Dashboard</span>
         </span>
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/projects" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/projects"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>folder</mat-icon>
           <span>Projects</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/tasks" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/tasks"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>assignment</mat-icon>
           <span>Tasks</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/schedules" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/schedules"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>event</mat-icon>
           <span>Schedules</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/labels" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/labels"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>label</mat-icon>
           <span>Labels</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/attachments" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/attachments"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>attach_file</mat-icon>
           <span>Attachments</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/comments" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/comments"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>comment</mat-icon>
           <span>Comments</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/notifications" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/notifications"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>notifications</mat-icon>
           <span>Notifications</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/tenants" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/tenants"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>business</mat-icon>
           <span>Tenants</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/users" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/users"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>people</mat-icon>
           <span>Users</span>
         </span>
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/profile" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        routerLink="/profile"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>person</mat-icon>
           <span>Profile</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/login" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        *ngIf="!authService.isAuthenticated()"
+        routerLink="/login"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>login</mat-icon>
           <span>Login</span>
         </span>
       </a>
-      <a mat-list-item routerLink="/register" routerLinkActive="active" class="sidebar-link">
+      <a
+        mat-list-item
+        *ngIf="!authService.isAuthenticated()"
+        routerLink="/register"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
         <span class="sidebar-link-content">
           <mat-icon>person_add</mat-icon>
           <span>Register</span>
+        </span>
+      </a>
+      <a
+        mat-list-item
+        *ngIf="authService.isAuthenticated()"
+        (click)="authService.logout()"
+        class="sidebar-link"
+        routerLink="/login"
+      >
+        <span class="sidebar-link-content">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
         </span>
       </a>
     </mat-nav-list>
@@ -104,7 +189,13 @@
       </button>
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="/profile">Profile</button>
-        <button mat-menu-item routerLink="/logout">Logout</button>
+        <button
+          mat-menu-item
+          (click)="authService.logout()"
+          routerLink="/login"
+        >
+          Logout
+        </button>
       </mat-menu>
     </mat-toolbar>
     <div class="main-content">

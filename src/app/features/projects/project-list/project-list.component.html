@@ -23,11 +23,22 @@
       <td>{{ project.createdAt | date:'short' }}</td>
       <td>
         <ng-container *ngIf="userMap[project.ownerId] as user">
-          <app-user-avatar [avatarUrl]="user.avatarUrl" [fullName]="user.fullName"></app-user-avatar>
+          <app-user-avatar [avatarUrl]="user.avatarUrl || 'assets/225-default-avatar.svg'"  [fullName]="user.fullName"></app-user-avatar>
           {{ user.fullName }}
         </ng-container>
         <ng-container *ngIf="!userMap[project.ownerId]">{{ project.ownerId }}</ng-container>
       </td>
+      <td>
+        <button [routerLink]="['/projects', project.id]">View Details</button>
+      </td>
+      <td *ngIf="authService.isAdmin()">
+        <button (click)="deleteProject(project.id)">Delete</button>
+      </td>
+      <td>
+        <button [routerLink]="['/projects', project.id, 'edit']">Edit</button>
+      </td>
+     
+      
     </tr>
   </tbody>
 </table>
